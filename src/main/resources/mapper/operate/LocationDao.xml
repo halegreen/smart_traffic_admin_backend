@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hq.modules.operate.dao.LocationDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.hq.modules.operate.entity.LocationEntity" id="cfLocationMap">
+        <result property="locationId" column="location_id"/>
+        <result property="locationName" column="location_name"/>
+        <result property="province" column="province"/>
+        <result property="city" column="city"/>
+        <result property="citycode" column="citycode"/>
+        <result property="district" column="district"/>
+        <result property="adcode" column="adcode"/>
+        <result property="street" column="street"/>
+        <result property="streetNumber" column="street_number"/>
+        <result property="lat" column="lat"/>
+        <result property="lng" column="lng"/>
+        <result property="status" column="status"/>
+        <result property="remark" column="remark"/>
+        <result property="gmtCreate" column="gmt_create"/>
+    </resultMap>
+
+    <update id="updateRemarkByid">
+        update cf_location
+		  set remark = #{remark}
+		where location_id = #{locationid}
+    </update>
+
+    <update id="updateStatusByid">
+        update cf_location
+		  set status = #{status}
+		where location_id = #{locationid}
+    </update>
+    <select id="selectDistrictBycityCode" resultType="String">
+        SELECT DISTINCT(district) FROM cf_location
+        <where>
+            citycode = #{citycode}
+        </where>
+    </select>
+    <select id="selectBydistrict" resultMap="cfLocationMap">
+        SELECT * FROM cf_location
+        <where>
+            district = #{district}
+        </where>
+    </select>
+    <select id="getLocationStatistics" resultType="com.hq.modules.operate.entity.LocationStatistics">
+         SELECT district ,COUNT(*)as num FROM cf_location
+          GROUP BY district;
+    </select>
+</mapper>

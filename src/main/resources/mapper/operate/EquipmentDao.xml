@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hq.modules.operate.dao.EquipmentDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.hq.modules.operate.entity.EquipmentEntity" id="cfEquipmentMap">
+        <result property="equipmentId" column="equipment_id"/>
+        <result property="equipmentName" column="equipment_name"/>
+        <result property="belongTypeid" column="belong_typeid"/>
+        <result property="belongTypename" column="belong_typename"/>
+        <result property="equipmentPrice" column="equipment_price"/>
+        <result property="equipmentNum" column="equipment_num"/>
+        <result property="localtionId" column="localtion_id"/>
+        <result property="locationName" column="location_name"/>
+        <result property="equipmentStatus" column="equipment_status"/>
+        <result property="locationStatus" column="location_status"/>
+        <result property="community" column="community"/>
+        <result property="unit" column="unit"/>
+        <result property="floor" column="floor"/>
+        <result property="corridor" column="corridor"/>
+        <result property="roomNumber" column="room_number"/>
+        <result property="administrator" column="administrator"/>
+        <result property="phone" column="phone"/>
+        <result property="gmtCreate" column="gmt_create"/>
+    </resultMap>
+    <resultMap id="equipmentStatistics" type="com.hq.modules.operate.entity.EquipmentStatistics">
+        <result property="community" column="community"/>
+        <result property="date" column="gmt_create"/>
+        <result property="addEqunum" column="equipment_num"/>
+    </resultMap>
+
+    <update id="updateAllByid" >
+        update cf_equipment
+        <set>
+            equipment_id =  #{equipment.equipmentId},
+            equipment_name =  #{equipment.equipmentName},
+            belong_typeid =  #{equipment.belongTypeid},
+            belong_typename =  #{equipment.belongTypename},
+            equipment_price =  #{equipment.equipmentPrice},
+            equipment_num =  #{equipment.equipmentNum},
+            localtion_id =  #{equipment.localtionId},
+            location_name =  #{equipment.locationName},
+            equipment_status =  #{equipment.equipmentStatus},
+            location_status =  #{equipment.locationStatus},
+            community =  #{equipment.community},
+            unit =  #{equipment.unit},
+            floor =  #{equipment.floor},
+            corridor =  #{equipment.corridor},
+            room_number =  #{equipment.roomNumber},
+            administrator =  #{equipment.administrator},
+            phone =  #{equipment.phone},
+            gmt_create =  #{equipment.gmtCreate}
+        </set>
+        where equipment_id = #{id}
+    </update>
+
+    <select id="selectAllType" resultType="String">
+        select  DISTINCT belong_typename from cf_equipment
+    </select>
+
+    <select id="selectAllCommunity"  resultType="String">
+       select  DISTINCT community from cf_equipment
+       order BY community,gmt_create ASC
+    </select>
+
+    <select id="statisticsbydate" resultType="com.hq.modules.operate.entity.EquipmentStatistics">
+        SELECT
+        community,
+        DATE_FORMAT(gmt_create,'%Y-%m-%d')AS date,
+        SUM(equipment_num) as addEqunum
+        FROM `cf_equipment`
+        WHERE
+        gmt_create &gt;= #{startDate}
+        AND
+        gmt_create &lt;= #{endDate}
+        GROUP BY DATE_FORMAT(gmt_create,'%Y-%m-%d'),community
+        order BY community,gmt_create ASC
+    </select>
+
+    <update id="updateStatusByid">
+        update cf_equipment
+        <set>
+            equipment_status =  #{equipmentStatus},
+        </set>
+        where equipment_id = #{equipmentId}
+    </update>
+</mapper>
