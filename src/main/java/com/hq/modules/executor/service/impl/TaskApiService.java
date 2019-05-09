@@ -37,6 +37,10 @@ public class TaskApiService extends AbstractApiService implements RestfulApiServ
         TaskInfo taskInfo = new TaskInfo();
         try {
             Map<String, String> paramMap = new HashMap<>();  //仿真的ExecutorParam
+            if (info.getExecutorParam() == null || info.getExecutorParam().length() == 0) {
+                logger.error("========== 输入非法，参数为空！");
+                return;
+            }
             String[] params = info.getExecutorParam().split(",");
             for (String param : params) {
                 String key = param.split("=")[0].trim();

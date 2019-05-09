@@ -75,4 +75,5 @@ public class DistributedTaskController {
         apiService.runBatchTask(ids);
         return R.ok();
     }
+
 }

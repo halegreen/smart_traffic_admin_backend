@@ -4,10 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.hq.common.utils.GenericSuperclassUtil;
 import com.hq.common.utils.HttpResult;
 import com.hq.common.utils.HttpUtils;
-import com.shaw.common.model.RoadLink;
-import com.shaw.common.model.TaskInfo;
-import com.shaw.common.model.TrafficLightModel;
-import com.shaw.common.model.TrafficStateData;
+import com.shaw.common.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -28,17 +25,18 @@ public abstract class AbstractApiService {
     protected static final Map<String, Class> classMapping = new HashMap<>();
     protected static final Map<Class, String> methodMapping = new HashMap<>();
 
-
     static {
         classMapping.put("task", TaskInfo.class);
         classMapping.put("plan", TrafficLightModel.class);
         classMapping.put("flow", TrafficStateData.class);
         classMapping.put("link", RoadLink.class);
+        classMapping.put("task/config", SimulationConfig.class);
 
         methodMapping.put(TaskInfo.class, "task");
         methodMapping.put(TrafficLightModel.class, "plan");
         methodMapping.put(TrafficStateData.class, "flow");
         methodMapping.put(RoadLink.class, "link");
+        methodMapping.put(SimulationConfig.class, "task/config");
     }
 
 
@@ -60,7 +58,6 @@ public abstract class AbstractApiService {
     public void add(Object info) {
         String url = API_BASE_URL + uri + "/add";
         logger.info("========== 请求api接口：{}", url);
-
         try {
             String jonsInfo = JSON.toJSONString(info);
             HttpResult result = HttpUtils.doPostJson(url, jonsInfo);
@@ -73,7 +70,6 @@ public abstract class AbstractApiService {
     public void update(Object info, String id) {
         String url = API_BASE_URL + uri + "/update";
         logger.info("========== 请求api接口：{}", url);
-
 
     }
 

@@ -3,11 +3,14 @@ package com.hq.modules.sys.oauth2;
 import com.google.gson.Gson;
 import com.hq.common.utils.HttpContextUtils;
 import com.hq.common.utils.R;
+import com.hq.modules.executor.service.impl.SimulationConfigServiceImpl;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpStatus;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.web.filter.authc.AuthenticatingFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.ServletRequest;
@@ -21,6 +24,7 @@ import java.io.IOException;
  *
  */
 public class OAuth2Filter extends AuthenticatingFilter {
+    private static Logger logger = LoggerFactory.getLogger(OAuth2Filter.class);
 
     @Override
     protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) {
@@ -44,6 +48,7 @@ public class OAuth2Filter extends AuthenticatingFilter {
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
         //获取请求token，如果token不存在，直接返回401
         String token = getRequestToken((HttpServletRequest) request);
+        logger.info("============= 请求token = {}", token);
         if(StringUtils.isBlank(token)){
             HttpServletResponse httpResponse = (HttpServletResponse) response;
             httpResponse.setHeader("Access-Control-Allow-Credentials", "true");

@@ -8,8 +8,7 @@ import com.shaw.common.model.TaskInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 public class TrafficPlanValidateController {
@@ -27,9 +26,9 @@ public class TrafficPlanValidateController {
     @RequestMapping(value = "/validate/multiple", method = RequestMethod.POST, produces = "application/json")
     public R validateMultiple(@RequestBody String planIdListStr) {
         List<String> planIdList = JSON.parseArray(planIdListStr, String.class);
-        Map<String, Object> flowData = validateApiService.validateMultiple(planIdList);
-
-        return R.ok().put("flow", flowData);
+        Map<String, List<String>> flowData = validateApiService.validateMultiple(planIdList);
+        int[] a = new int[1];
+        return R.ok().put("flow", flowData).put("length", flowData.get("volumeQ").size()).put("planList", planIdList);
     }
 
 
