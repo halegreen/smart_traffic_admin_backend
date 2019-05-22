@@ -49,8 +49,8 @@ public class SimulationConfigController {
     }
 
     @RequestMapping(value = "/config/{id}", method = RequestMethod.GET, produces = "application/json")
-    public R getConfigPath(@PathVariable String id) {
-        String path = simulationConfigService.getConfigFilePath(id);
+    public R getConfigPath(@PathVariable String id, @RequestParam String isGreenBand) {
+        String path = simulationConfigService.getConfigFilePath(id, isGreenBand);
         return R.ok().put("configFilePath", path);
     }
 }

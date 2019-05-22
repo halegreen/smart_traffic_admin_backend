@@ -22,5 +22,5 @@ public interface SimulationConfigService {
 
     Map<String, Object> getPageList(int page, int pageSize);
 
-    String getConfigFilePath(String id);
+    String getConfigFilePath(String id, String isGreenBand);
 }

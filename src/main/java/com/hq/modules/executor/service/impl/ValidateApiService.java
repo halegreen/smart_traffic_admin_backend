@@ -64,4 +64,9 @@ public class ValidateApiService {
 
     }
 
+
+    public Map<String, List<String>> validateGreenBand(List<String> planIds) {
+
+        return null;
+    }
 }

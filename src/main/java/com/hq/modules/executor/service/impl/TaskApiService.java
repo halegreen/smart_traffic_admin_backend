@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.hq.common.utils.HttpResult;
 import com.hq.common.utils.HttpUtils;
 import com.hq.modules.executor.service.RestfulApiService;
+import com.shaw.common.model.OptimizeExecuteParam;
 import com.shaw.common.model.TaskInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,10 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class TaskApiService extends AbstractApiService implements RestfulApiService {
@@ -74,7 +72,6 @@ public class TaskApiService extends AbstractApiService implements RestfulApiServ
         super.update(info, id);
     }
 
-
     @Override
     public void runBatchTask(List<String> taskIdList) {
         if (taskIdList == null || taskIdList.size() == 0) {
@@ -91,5 +88,19 @@ public class TaskApiService extends AbstractApiService implements RestfulApiServ
         }
 
 
+    }
+
+    public List<OptimizeExecuteParam> getParams(List<?> taskInfos) {
+        List<OptimizeExecuteParam> ret = new ArrayList<>();
+        for (int i = 0; i < taskInfos.size(); i++) {
+            TaskInfo info = (TaskInfo) taskInfos.get(i);
+            Map<String, String> paramMap = JSON.parseObject(info.getExecutorParam(), Map.class);
+            OptimizeExecuteParam param = new OptimizeExecuteParam();
+            param.setJunctionId(paramMap.get("junctionId"));
+            param.setTimeRange(paramMap.get("timeRange"));
+            param.setModelType(paramMap.get("modelType"));
+            ret.add(param);
+        }
+        return ret;
     }
 }
