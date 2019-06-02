@@ -3,5 +3,4 @@
 
 <mapper namespace="com.hq.modules.app.dao.UserDao">
 
-
 </mapper>
