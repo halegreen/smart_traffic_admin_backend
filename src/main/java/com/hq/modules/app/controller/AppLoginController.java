@@ -36,7 +36,7 @@ public class AppLoginController {
     /**
      * 登录
      */
-    @PostMapping("login")
+    @PostMapping("/login")
     @ApiOperation("登录")
     public R login(@RequestBody LoginForm form){
         //表单校验

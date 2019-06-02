@@ -28,7 +28,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
 		Assert.isNull(user, "手机号或密码错误");
 
 		//密码错误
-		if(!user.getPassword().equals(DigestUtils.sha256Hex(form.getPassword()))){
+		if(!user.getPassword().equals(DigestUtils.shaHex(form.getPassword()))){
 			throw new RRException("手机号或密码错误");
 		}
 
