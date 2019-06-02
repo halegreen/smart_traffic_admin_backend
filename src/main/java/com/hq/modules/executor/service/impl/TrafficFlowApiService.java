@@ -7,8 +7,10 @@ import com.shaw.common.model.TrafficStateData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -17,6 +19,7 @@ import java.util.stream.Collectors;
 public class TrafficFlowApiService extends AbstractApiService implements RestfulApiService {
 
     private static Logger logger = LoggerFactory.getLogger(TrafficFlowApiService.class);
+    private static final String LOCAL_FLOW_FILE_PATH = "/Users/shaw/Desktop/Simulation/outer_traffic_flow_data/";
 
     @PostConstruct
     public void init() {
@@ -97,6 +100,16 @@ public class TrafficFlowApiService extends AbstractApiService implements Restful
         }
 
         return ret;
+
+    }
+
+    /**
+     * todo: 转化外部流量数据格式，目前只支持特定格式的数据转换
+     * @param flowFile
+     */
+    public void uploadFlow(MultipartFile flowFile) {
+        String filePath = LOCAL_FLOW_FILE_PATH + flowFile.getOriginalFilename();
+        File file = new File(filePath);
 
     }
 }

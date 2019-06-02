@@ -13,7 +13,7 @@ public interface SimulationConfigService {
      * @param roadConfigFile
      * @param rouConfigFile
      */
-    void uploadSimulationConfig(MultipartFile roadConfigFile, MultipartFile rouConfigFile, String configName);
+    void uploadSimulationConfig(MultipartFile roadConfigFile, MultipartFile rouConfigFile, MultipartFile additionalFile, String configName);
 
 
     void parseRoadNetConfig(String roadNetConfigFile);

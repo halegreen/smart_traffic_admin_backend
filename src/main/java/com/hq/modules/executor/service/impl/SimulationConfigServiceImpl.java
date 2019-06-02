@@ -27,7 +27,7 @@ import java.util.*;
 public class SimulationConfigServiceImpl extends AbstractApiService implements SimulationConfigService {
     private static Logger logger = LoggerFactory.getLogger(SimulationConfigServiceImpl.class);
 
-    private static final String LOCAL_SIMULATION_CONFIG_FILE_BASE_DIR = "/Users/shaw/Desktop/Simulation/simlulation_config_data/";  //仿真配置文件目录
+    private static final String LOCAL_SIMULATION_CONFIG_FILE_BASE_DIR = "/Users/shaw/Desktop/Simulation/simulation_config_data/";  //仿真配置文件目录
     private static final String SERVER_SIMULATION_CONFIG_FILE_BASE_DIR = "/home/simulate801/simulation_config/";  //服务器仿真配置文件目录
     private DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
     private TransformerFactory tff = TransformerFactory.newInstance();
@@ -39,24 +39,28 @@ public class SimulationConfigServiceImpl extends AbstractApiService implements S
 
 
     @Override
-    public void uploadSimulationConfig(MultipartFile roadConfigFile, MultipartFile rouConfigFile, String configName) {
+    public void uploadSimulationConfig(MultipartFile roadConfigFile, MultipartFile rouConfigFile,MultipartFile additionalFile, String configName) {
         logger.info("=========== 上传config file : {} ", configName );
         boolean isGreenBand = checkGreenBand(roadConfigFile.getOriginalFilename(), rouConfigFile.getOriginalFilename());
         String roadFilePath = LOCAL_SIMULATION_CONFIG_FILE_BASE_DIR + roadConfigFile.getOriginalFilename();
         String rouFilePath = LOCAL_SIMULATION_CONFIG_FILE_BASE_DIR  + rouConfigFile.getOriginalFilename();
+        String addFilePath = LOCAL_SIMULATION_CONFIG_FILE_BASE_DIR  + additionalFile.getOriginalFilename();
         File roadFile = new File(roadFilePath);
         File rouFile = new File(rouFilePath);
+        File addFile = new File(addFilePath);
         if (!roadFile.getParentFile().exists()) {
             roadFile.getParentFile().mkdir();
         }
         try {
             roadConfigFile.transferTo(roadFile);
             rouConfigFile.transferTo(rouFile);
+            additionalFile.transferTo(addFile);
             if (isGreenBand) {
                 this.uploadToServer(roadFile, rouFile, new File(LOCAL_SIMULATION_CONFIG_FILE_BASE_DIR + configName));
                 this.addConfigToDataBase(configName, true);
             } else {
-                this.generateConfig(configName, roadConfigFile.getOriginalFilename(), rouConfigFile.getOriginalFilename());
+                this.generateConfig(configName, roadConfigFile.getOriginalFilename(),
+                        rouConfigFile.getOriginalFilename(), additionalFile.getOriginalFilename());
                 this.addConfigToDataBase(configName);
             }
         } catch (Exception e) {
@@ -64,7 +68,7 @@ public class SimulationConfigServiceImpl extends AbstractApiService implements S
         }
     }
 
-    private void generateConfig(String configName, String roadName, String rouName) {
+    private void generateConfig(String configName, String roadName, String rouName, String additionalName) {
         File configFile = new File(LOCAL_SIMULATION_CONFIG_FILE_BASE_DIR + configName);
         try {
             DocumentBuilder builder = documentBuilderFactory.newDocumentBuilder();
@@ -79,9 +83,12 @@ public class SimulationConfigServiceImpl extends AbstractApiService implements S
             netFile.setAttribute("value", roadName);
             Element rouFile = document.createElement("route-files");
             rouFile.setAttribute("value", rouName);
+            Element addFile = document.createElement("additional-files");
+            addFile.setAttribute("value", additionalName);
             configuration.appendChild(input);
             input.appendChild(netFile);
             input.appendChild(rouFile);
+            input.appendChild(addFile);
             Transformer transformer = tff.newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.transform(new DOMSource(document), new StreamResult(configFile));
@@ -107,9 +114,9 @@ public class SimulationConfigServiceImpl extends AbstractApiService implements S
 
     private void uploadToServer(File roadFile, File rouFile, File configFile) {
         //no ftp
-        String bashCommand1 = "echo 801 | scp /Users/shaw/Desktop/Simulation/simlulation_config_data/" + roadFile + "simulate801@10.28.171.13:/home/simulate801/simulation_config/";
-        String bashCommand2 = "scp /Users/shaw/Desktop/Simulation/simlulation_config_data/" + rouFile + "simulate801@10.28.171.13:/home/simulate801/simulation_config/";
-        String bashCommand3 = "scp /Users/shaw/Desktop/Simulation/simlulation_config_data/" + configFile + "simulate801@10.28.171.13:/home/simulate801/simulation_config/";
+        String bashCommand1 = "echo 801 | scp /Users/shaw/Desktop/Simulation/simulation_config_data/" + roadFile + "simulate801@10.28.171.13:/home/simulate801/simulation_config/";
+        String bashCommand2 = "scp /Users/shaw/Desktop/Simulation/simulation_config_data/" + rouFile + "simulate801@10.28.171.13:/home/simulate801/simulation_config/";
+        String bashCommand3 = "scp /Users/shaw/Desktop/Simulation/simulation_config_data/" + configFile + "simulate801@10.28.171.13:/home/simulate801/simulation_config/";
         Runtime runtime = Runtime.getRuntime();
         try {
             runtime.exec(bashCommand1);
