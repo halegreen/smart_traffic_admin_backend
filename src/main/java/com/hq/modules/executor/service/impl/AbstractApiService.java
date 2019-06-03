@@ -68,9 +68,15 @@ public abstract class AbstractApiService {
     }
 
     public void update(Object info, String id) {
-        String url = API_BASE_URL + uri + "/update";
+        String url = API_BASE_URL + uri + "/update" + "/" + id;
         logger.info("========== 请求api接口：{}", url);
-
+        try {
+            String jonsInfo = JSON.toJSONString(info);
+            HttpResult result = HttpUtils.doPostJson(url, jonsInfo);
+        } catch (Exception e) {
+            logger.error("api更新 info信息出错" + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public void delete(String id) {

@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/network")
-public class NodeController {
+public class RoadNodeController {
+
     @Autowired
     private NodeServiceImpl nodeServiceImpl;
+
     public String  getNodeInfo() throws DocumentException {
         System.out.println("test controller ");
         Dom4jUtil dom = new Dom4jUtil();

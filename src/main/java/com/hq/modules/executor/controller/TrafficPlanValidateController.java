@@ -27,7 +27,6 @@ public class TrafficPlanValidateController {
     public R validateMultiple(@RequestBody String planIdListStr) {
         List<String> planIdList = JSON.parseArray(planIdListStr, String.class);
         Map<String, List<String>> flowData = validateApiService.validateMultiple(planIdList);
-        int[] a = new int[1];
         return R.ok().put("flow", flowData).put("length", flowData.get("volumeQ").size()).put("planList", planIdList);
     }
 

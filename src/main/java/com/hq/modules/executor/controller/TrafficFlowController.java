@@ -7,6 +7,7 @@ import com.shaw.common.model.TrafficLightModel;
 import com.shaw.common.model.TrafficStateData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -89,6 +90,33 @@ public class TrafficFlowController {
     @RequestMapping(value = "/flow/{id}", method = RequestMethod.DELETE, produces = "application/json")
     public R delete(@PathVariable String id) {
         apiService.delete(id);
+        return R.ok();
+    }
+
+    /**
+     * 导入外部流量数据，并进行格式的转化
+     * @param flowFile
+     * @return
+     */
+    @RequestMapping(value = "/flow/upload", method = RequestMethod.POST, produces = "application/json")
+    public R uploadOtherFlowData(@RequestParam MultipartFile flowFile) {
+        if (!flowFile.isEmpty()) {
+           apiService.uploadFlow(flowFile);
+        }
+        return R.ok();
+    }
+
+    /**
+     * 流量聚类分析：可用于路口信号灯方案的时段划分依据，发现模式相同的流量特征，这类流量可用相近的信号灯方案
+     * @param linkId
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    @RequestMapping(value = "/flow/cluster", method = RequestMethod.GET, produces = "application/json")
+    public R flowClusterAnalysis(@RequestParam String linkId,
+                            @RequestParam String startTime, @RequestParam String endTime) {
+
         return R.ok();
     }
 

@@ -4,6 +4,7 @@ package com.hq.modules.executor.controller;
 import com.hq.common.utils.PageUtils;
 import com.hq.common.utils.R;
 import com.hq.modules.executor.service.impl.TaskApiService;
+import com.shaw.common.model.OptimizeExecuteParam;
 import com.shaw.common.model.TaskInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +40,9 @@ public class DistributedTaskController {
 
         PageUtils res = new PageUtils((List<?>) taskPage.get("pageList"), (int) taskPage.get("totalCount"), size, page);
 
-        return R.ok().put("page", res);
+        List<OptimizeExecuteParam> optimizeExecuteParams = apiService.getParams((List<?>) taskPage.get("pageList"));
+
+        return R.ok().put("page", res).put("params", optimizeExecuteParams); //算法优化需要返回训练参数
     }
 
     @RequestMapping(value = "/task/info/{id}", method = RequestMethod.GET, produces = "application/json")

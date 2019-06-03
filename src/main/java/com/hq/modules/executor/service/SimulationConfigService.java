@@ -13,7 +13,7 @@ public interface SimulationConfigService {
      * @param roadConfigFile
      * @param rouConfigFile
      */
-    void uploadSimulationConfig(MultipartFile roadConfigFile, MultipartFile rouConfigFile, String configName);
+    void uploadSimulationConfig(MultipartFile roadConfigFile, MultipartFile rouConfigFile, MultipartFile additionalFile, String configName);
 
 
     void parseRoadNetConfig(String roadNetConfigFile);
@@ -22,5 +22,5 @@ public interface SimulationConfigService {
 
     Map<String, Object> getPageList(int page, int pageSize);
 
-    String getConfigFilePath(String id);
+    String getConfigFilePath(String id, String isGreenBand);
 }

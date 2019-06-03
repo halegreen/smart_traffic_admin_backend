@@ -28,9 +28,10 @@ public class SimulationConfigController {
      */
     @RequestMapping(value = "/config/upload", method = RequestMethod.POST, produces = "application/json")
     public R uploadSimulationConfig(@RequestParam MultipartFile roadFile,
-                                    @RequestParam MultipartFile rouFile ) {
-        if (!roadFile.isEmpty() && !rouFile.isEmpty()) {
-            simulationConfigService.uploadSimulationConfig(roadFile, rouFile,
+                                    @RequestParam MultipartFile rouFile ,
+                                    @RequestParam MultipartFile additionalFile) {
+        if (!roadFile.isEmpty() && !rouFile.isEmpty() && !additionalFile.isEmpty()) {
+            simulationConfigService.uploadSimulationConfig(roadFile, rouFile, additionalFile,
                     roadFile.getOriginalFilename() + "_" + rouFile.getOriginalFilename());
         }
         return R.ok();
@@ -50,7 +51,7 @@ public class SimulationConfigController {
 
     @RequestMapping(value = "/config/{id}", method = RequestMethod.GET, produces = "application/json")
     public R getConfigPath(@PathVariable String id) {
-        String path = simulationConfigService.getConfigFilePath(id);
+        String path = simulationConfigService.getConfigFilePath(id, "");
         return R.ok().put("configFilePath", path);
     }
 }

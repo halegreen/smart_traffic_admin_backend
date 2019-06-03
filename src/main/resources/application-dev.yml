@@ -4,14 +4,14 @@ spring:
         driverClassName: com.mysql.cj.jdbc.Driver
         druid:
             first:  #数据源1
-                url: jdbc:mysql://127.0.0.1:3306/traffic?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
+                url: jdbc:mysql://127.0.0.1:3306/traffic_optimization?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
                 username: root
-                password: phm1234567
+                password: sim801
 
             second:  #数据源1
                 url: jdbc:mysql://127.0.0.1:3306/cityfire?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
                 username: root
-                password: phm1234567
+                password: sim801
             initial-size: 10
             max-active: 100
             min-idle: 10
