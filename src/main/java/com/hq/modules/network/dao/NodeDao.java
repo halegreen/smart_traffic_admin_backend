@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 //extends BaseMapper<NodeEntity>
 @Mapper
 @Repository
-public interface NodeDao{
+public interface NodeDao {
     public NodeEntity selectNode();
 }

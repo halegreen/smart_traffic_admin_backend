@@ -1,7 +1,9 @@
 package com.hq.modules.network.service.impl;
 
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.hq.modules.network.dao.NetNodeDao;
 import com.hq.modules.network.dao.NodeDao;
+import com.hq.modules.network.entity.NetNodeEntity;
 import com.hq.modules.network.entity.NodeEntity;
 import com.hq.modules.network.service.NodeService;
 import com.hq.modules.network.utils.Dom4jUtil;
@@ -22,8 +24,12 @@ import java.util.Map;
 
 @Service("nodeService")
 public class NodeServiceImpl implements NodeService {
+
     @Autowired
     private NodeDao nodeDao;
+
+    @Autowired
+    private NetNodeDao netNodeDao;
 
     //传入root节点
     public List<NodeEntity> getNodes(Element node){
@@ -59,6 +65,11 @@ public class NodeServiceImpl implements NodeService {
             //System.out.println("属性名称："+name+"属性值："+value);
         }
         return nlist;
+    }
+
+    @Override
+    public void addNode(NetNodeEntity netNodeEntity) {
+        netNodeDao.insert(netNodeEntity);
     }
 
 }

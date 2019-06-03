@@ -4,10 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.hq.common.utils.HttpResult;
 import com.hq.common.utils.HttpUtils;
 import com.hq.modules.executor.service.RestfulApiService;
+import com.hq.modules.network.service.TrafficLightService;
 import com.shaw.common.model.OptimizeExecuteParam;
 import com.shaw.common.model.TaskInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -16,6 +18,9 @@ import java.util.*;
 
 @Service
 public class TaskApiService extends AbstractApiService implements RestfulApiService {
+
+    @Autowired
+    TrafficLightService trafficLightService;
 
     private static Logger logger = LoggerFactory.getLogger(TaskApiService.class);
 
@@ -44,6 +49,9 @@ public class TaskApiService extends AbstractApiService implements RestfulApiServ
                 String key = param.split("=")[0].trim();
                 String value = param.split("=")[1].trim();
                 paramMap.put(key, value);
+                if (info.getHandlerName().equals("Optimize") && key.equals("junctionId")) {
+                    paramMap.put("phaseNumber", String.valueOf(trafficLightService.getPhaseIdList(value).size()));
+                }
             }
             if (info.getHandlerName().equals("Simulation")) {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
