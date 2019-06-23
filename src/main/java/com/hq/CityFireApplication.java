@@ -21,6 +21,7 @@ public class CityFireApplication extends SpringBootServletInitializer {
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		logger.debug("phm test");
 		return application.sources(CityFireApplication.class);
 	}
 }
