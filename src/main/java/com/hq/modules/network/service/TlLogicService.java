@@ -4,7 +4,6 @@ import org.dom4j.Element;
 import org.springframework.stereotype.Service;
 
 @Service
-public interface NodeService {
-
-    String addNodes(Element myroot);
+public interface TlLogicService {
+    String addTlLogics(Element myroot);
 }

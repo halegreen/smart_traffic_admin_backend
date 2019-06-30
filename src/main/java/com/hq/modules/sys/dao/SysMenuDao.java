@@ -5,6 +5,7 @@ package com.hq.modules.sys.dao;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.hq.modules.sys.entity.SysMenuEntity;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ import java.util.List;
  * 菜单管理
  */
 @Mapper
+@Repository
 public interface SysMenuDao extends BaseMapper<SysMenuEntity> {
 	
 	/**
