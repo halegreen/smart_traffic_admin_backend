@@ -35,7 +35,6 @@ public class RoadController {
         //测试新加其他路网元素功能
         Scanner sc = new Scanner(System.in);
         System.out.println("输入要导入的路网文件的全路径，例如：\"/Users/phm/Desktop/test/demo.net.xml\"");
-        System.out.println("==");
         String path = sc.nextLine();
 
         //获得xml根节点
