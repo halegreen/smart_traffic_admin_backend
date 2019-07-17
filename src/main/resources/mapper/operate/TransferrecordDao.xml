@@ -16,5 +16,4 @@
         <result property="operatReason" column="operat_reason"/>
     </resultMap>
 
-
 </mapper>

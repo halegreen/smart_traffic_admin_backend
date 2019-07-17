@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.hq.common.utils.GenericSuperclassUtil;
 import com.hq.common.utils.HttpResult;
 import com.hq.common.utils.HttpUtils;
+import com.hq.modules.network.entity.NetNodeEntity;
 import com.shaw.common.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

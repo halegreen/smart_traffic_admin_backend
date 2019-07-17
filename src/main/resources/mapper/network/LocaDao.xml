@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hq.modules.network.dao.LocaDao">
+
+    <insert id="insertLocations" keyProperty="id" useGeneratedKeys="true">
+        insert into net_location (location_name, netOffset, convBoundary,origBoundary) values (#{location_name},#{netOffset},#{convBoundary},#{origBoundary})
+    </insert>
+
+    <select id="selectLocations" resultType="java.lang.Integer">
+        select id from net_location
+    </select>
+</mapper>
