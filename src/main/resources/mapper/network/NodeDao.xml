@@ -3,8 +3,12 @@
 
 <mapper namespace="com.hq.modules.network.dao.NodeDao">
     
-    <insert id="insertNodes" keyProperty="node_id">
-        insert into net_node (node_id, x, y, node_type, tl_id, node_name,incLanes,intLanes) values (#{nodeId},#{x},#{y},#{nodeType},#{tlId},#{nodeName},#{incLanes},#{intLanes})
+    <insert id="insertNodes" keyProperty="node_id" >
+        insert into net_node (node_id, x, y, node_type, tl_id, node_name,incLanes,intLanes,location_id) values (#{nodeId},#{x},#{y},#{nodeType},#{tlId},#{nodeName},#{incLanes},#{intLanes},#{location_id})
     </insert>
+
+    <select id="getNodesByLocationId" parameterType="int" resultType="com.hq.modules.network.entity.NetNodeEntity">
+        select * from net_node where location_id = #{location_id}
+    </select>
 
 </mapper>

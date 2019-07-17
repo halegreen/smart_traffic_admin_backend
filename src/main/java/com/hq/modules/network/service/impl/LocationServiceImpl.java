@@ -16,10 +16,10 @@ public class LocationServiceImpl implements LocationService {
     @Autowired
     private LocaDao locaDao;
     @Override
-    public String addLocations(Element myroot) {
+    public int addLocations(Element myroot) {
         System.out.println("--------------------");
         List<Element> listElement=myroot.elements("location");//所有一级子节点的list
-
+        int location_id = 0;
         //当前节点的名称、文本内容和属性
         for(Element e:listElement) {
             List<Attribute> listAttr = e.attributes();//当前节点的所有属性的list
@@ -28,10 +28,7 @@ public class LocationServiceImpl implements LocationService {
             for (Attribute attr : listAttr) {//遍历当前节点的所有属性
                 String name = attr.getName();//属性名称
                 String value = attr.getValue();//属性的值
-                if (name.equals("location_id")) {
-                    ne.setLocation_id(value);
-                    System.out.println("属性名称：" + name + "属性值：" + value);
-                }
+
                 if (name.equals("location_name")) {
                     ne.setLocation_name(value);
                 }
@@ -49,7 +46,15 @@ public class LocationServiceImpl implements LocationService {
                 }
             }
             locaDao.insertLocations(ne);
+            location_id = ne.getId();
         }
-        return "ok";
+        return location_id;
     }
+
+    @Override
+    public List<Integer> selectLocations() {
+        List<Integer> locationList = locaDao.selectLocations();
+        return locationList;
+    }
+
 }

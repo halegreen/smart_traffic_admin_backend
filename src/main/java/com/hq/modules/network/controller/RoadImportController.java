@@ -1,23 +1,24 @@
 package com.hq.modules.network.controller;
 
+import com.hq.common.utils.R;
+import com.hq.modules.network.entity.NetNodeEntity;
 import com.hq.modules.network.service.impl.*;
 import com.hq.modules.network.utils.Dom4jUtil;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
 @RestController
-@RequestMapping("/network")
-public class RoadController {
-
-    @Autowired
-    NodeServiceImpl nodeService;
+public class RoadImportController {
     @Autowired
     NodeServiceImpl nodeServiceImpl;
     @Autowired
@@ -29,25 +30,16 @@ public class RoadController {
     @Autowired
     LocationServiceImpl locationServiceImpl;
 
-    public String  addNetRoad() throws DocumentException {
-        System.out.println("test start");
+    @RequestMapping(value = "/location/ztree/import", method = RequestMethod.GET, produces = "application/json")
+    public R addNetRoad(@RequestParam(required = false, defaultValue = "0") String netRoadPath) throws DocumentException {
         Dom4jUtil dom = new Dom4jUtil();
-        //测试新加其他路网元素功能
-        Scanner sc = new Scanner(System.in);
-        System.out.println("输入要导入的路网文件的全路径，例如：\"/Users/phm/Desktop/test/demo.net.xml\"");
-        String path = sc.nextLine();
-
         //获得xml根节点
-        Element root = dom.parse(path);
-
-        locationServiceImpl.addLocations(root);
-
-        nodeServiceImpl.addNodes(root);
-
+        Element root = dom.parse(netRoadPath);
+        int location_id = locationServiceImpl.addLocations(root);
+        nodeServiceImpl.addNodes(root,location_id);
         edgeServiceImpl.addEdges(root);
-
         connServiceImpl.addConns(root);
 
-        return "ok";
+        return R.ok().put("message","导入成功！");
     }
 }

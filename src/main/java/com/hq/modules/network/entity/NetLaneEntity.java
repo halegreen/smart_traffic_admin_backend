@@ -8,13 +8,20 @@ import java.io.Serializable;
 @TableName("net_lane")
 public class NetLaneEntity implements Serializable {
     private static final long serialVersionUID = 1L;
-
     @TableId
+    private int id;
     private String lane_id;//对应xml中id
     private float speed;//对应xml中speed
     private float length;//对应xml中length
     private String lane_name;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
     public String getLane_id() {
         return lane_id;
     }

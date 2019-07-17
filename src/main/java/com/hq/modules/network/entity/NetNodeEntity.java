@@ -12,9 +12,8 @@ import java.io.Serializable;
 @TableName("net_node")
 public class NetNodeEntity implements Serializable {
     private static final long serialVersionUID = 1L;
-
     @TableId
-    //private int id;
+    private int id;
     private String nodeId;//xml中对应id
     private String x;//xml中对应x
     private String y;//xml中对应y
@@ -24,7 +23,22 @@ public class NetNodeEntity implements Serializable {
     //接下来的是xml中不一定含有的数据
     private String tlId;
     private String nodeName;
+    private int location_id;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    public int getLocation_id() {
+        return location_id;
+    }
+
+    public void setLocation_id(int location_id) {
+        this.location_id = location_id;
+    }
 
     public String getNodeId() {
         return nodeId;

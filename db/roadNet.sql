@@ -33,8 +33,7 @@ CREATE TABLE `net_lane` (
 
 DROP TABLE IF EXISTS net_location;
 CREATE TABLE `net_location` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `location_id` varchar(50) DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `location_name` varchar(50) DEFAULT NULL,
   `netOffset` varchar(10) DEFAULT NULL,
   `convBoundary` varchar(50) NOT NULL,
@@ -45,7 +44,7 @@ CREATE TABLE `net_location` (
 DROP TABLE IF EXISTS net_node;
 
 CREATE TABLE `net_node` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `node_id` varchar(50) NOT NULL,
   `x` varchar(10) DEFAULT NULL,
   `y` varchar(10) DEFAULT NULL,
@@ -54,6 +53,7 @@ CREATE TABLE `net_node` (
   `node_name` varchar(50) DEFAULT NULL,
   `incLanes` varchar(255) DEFAULT NULL,
   `intLanes` varchar(255) DEFAULT NULL,
+  `location_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 

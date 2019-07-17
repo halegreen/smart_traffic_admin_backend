@@ -12,5 +12,8 @@ import java.util.List;
 @Mapper
 @Repository
 public interface NodeDao extends BaseMapper<NetNodeEntity> {
+    //通过导入xml来向数据库填数据
     void insertNodes (NetNodeEntity netNodeEntity);
+    //获取该区域所有节点来提供给ztree前端展示
+    List<NetNodeEntity> getNodesByLocationId(int locationId);
 }

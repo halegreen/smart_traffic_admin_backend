@@ -22,7 +22,7 @@ public class DistributedTaskController {
 
     @RequestMapping(value = "/task/simulation/list", method = RequestMethod.GET, produces = "application/json")
     public R getAllSimulationTask(@RequestParam(required = false, defaultValue = "0") int page,
-                                          @RequestParam(required = false, defaultValue = "10") int size) {
+                                   @RequestParam(required = false, defaultValue = "10") int size) {
 
         Map<String, Object> taskPage = apiService.getPageList(page, size, "Simulation");
 
@@ -56,7 +56,6 @@ public class DistributedTaskController {
         apiService.add(taskInfo);
         return R.ok();
     }
-
 
     @RequestMapping(value = "/task/update", method = RequestMethod.POST, produces = "application/json")
     public R udpateTask(@PathVariable String id, @RequestBody TaskInfo taskInfo) {
