@@ -12,15 +12,18 @@ import java.io.Serializable;
 @TableName("net_node")
 public class NetNodeEntity implements Serializable {
     private static final long serialVersionUID = 1L;
-
     @TableId
     private int id;
-    private String nodeId;
-    private float x;
-    private float y;
-    private String nodeType;
+    private String nodeId;//xml中对应id
+    private String x;//xml中对应x
+    private String y;//xml中对应y
+    private String nodeType;//xml中对应type
+    private String incLanes;
+    private String intLanes;
+    //接下来的是xml中不一定含有的数据
     private String tlId;
     private String nodeName;
+    private int location_id;
 
     public int getId() {
         return id;
@@ -28,6 +31,13 @@ public class NetNodeEntity implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+    public int getLocation_id() {
+        return location_id;
+    }
+
+    public void setLocation_id(int location_id) {
+        this.location_id = location_id;
     }
 
     public String getNodeId() {
@@ -38,20 +48,36 @@ public class NetNodeEntity implements Serializable {
         this.nodeId = nodeId;
     }
 
-    public float getX() {
+    public String getX() {
         return x;
     }
 
-    public void setX(float x) {
+    public void setX(String x) {
         this.x = x;
     }
 
-    public float getY() {
+    public String getY() {
         return y;
     }
 
-    public void setY(float y) {
+    public void setY(String y) {
         this.y = y;
+    }
+
+    public String getIncLanes() {
+        return incLanes;
+    }
+
+    public void setIncLanes(String incLanes) {
+        this.incLanes = incLanes;
+    }
+
+    public String getIntLanes() {
+        return intLanes;
+    }
+
+    public void setIntLanes(String intLanes) {
+        this.intLanes = intLanes;
     }
 
     public String getNodeType() {

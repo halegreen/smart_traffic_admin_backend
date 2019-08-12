@@ -1,43 +1,71 @@
 package com.hq.modules.network.service.impl;
 
+import com.hq.common.utils.R;
 import com.hq.modules.network.entity.NetNodeEntity;
-import com.hq.modules.network.service.NodeService;
+import com.hq.modules.network.entity.ZtreeNodeEntity;
+import com.hq.modules.network.utils.Dom4jUtil;
+import com.hq.modules.network.utils.ZtreeBuilder;
+import org.dom4j.Element;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.io.File;
-import java.math.BigInteger;
-
-import static org.junit.Assert.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
+
 public class NodeServiceImplTest {
 
     @Autowired
-    NodeService nodeService;
+    NodeServiceImpl nodeService;
+    @Autowired
+    NodeServiceImpl nodeServiceImpl;
+    @Autowired
+    EdgeServiceImpl edgeServiceImpl;
+    @Autowired
+    LaneServiceImpl laneServiceImpl;
+    @Autowired
+    ConnServiceImpl connServiceImpl;
+    @Autowired
+    LocationServiceImpl locationServiceImpl;
+    @Autowired
+    ZtreeServiceImpl ztreeServiceImpl;
 
     @Test
     public void addNode() throws Exception {
-        NetNodeEntity netNodeEntity = new NetNodeEntity();
-        netNodeEntity.setNodeId("0000");
-        netNodeEntity.setNodeName("xxxx");
-        netNodeEntity.setNodeType("laneww");
-        netNodeEntity.setTlId("sss");
-        netNodeEntity.setX(82.73f);
-        netNodeEntity.setY(73.52f);
-        nodeService.addNode(netNodeEntity);
-        BigInteger bi =  BigInteger.valueOf(34);
-        bi.pow(2);
-        BigInteger bii = BigInteger.valueOf(234);
-        BigInteger result = BigInteger.ONE;
-        for (BigInteger i = BigInteger.ONE; i.compareTo(bii) <= 0; i = i.add(BigInteger.ONE)) {
-            result = result.multiply(i);
-        }
-
+        System.out.println("test start ");
+        Dom4jUtil dom = new Dom4jUtil();
+        //测试新加其他路网元素功能
+        //获得xml根节点
+        Element root = dom.parse("/Users/phm/Desktop/test/demo.net.xml");
+        int location_id = locationServiceImpl.addLocations(root);
+        nodeServiceImpl.addNodes(root, location_id);
+        edgeServiceImpl.addEdges(root);
+        connServiceImpl.addConns(root);
+        System.out.println("ok");
     }
 
+    @Test
+    public void getNodesForZtree() {
+        List<Integer> locationList = locationServiceImpl.selectLocations();
+        List ztreeNodesLists = new ArrayList<>();
+        for (int location_id : locationList) {
+            //通过location_id获取该地区的所有nodeList
+            List<NetNodeEntity> netNodeEntityList = new ArrayList<NetNodeEntity>();
+            netNodeEntityList = ztreeServiceImpl.getNodesByLocationId(location_id);
+            //将List<NetNodeEntity>类型转换为前端ztree展示需要的List<ZtreeNodeEntity>类型
+            ZtreeBuilder ztreeBuilder = new ZtreeBuilder();
+            List<ZtreeNodeEntity> beforeZtree = ztreeBuilder.beforeBuild(netNodeEntityList, location_id);
+            //第一种bulid方法两层循环建树
+            List<ZtreeNodeEntity> ztreeNodesList = ztreeBuilder.bulid(beforeZtree);
+            ztreeNodesLists.add(ztreeNodesList);
+            //第二种buildByRecursive方法递归方法建树
+            // List<ZtreeNodeEntity> ztreeNodesList = ztreeBuilder.buildByRecursive(beforeZtree);
+        }
+    }
 }

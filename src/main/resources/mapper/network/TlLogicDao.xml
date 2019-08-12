@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hq.modules.network.dao.TlLogicDao">
+
+    <insert id="insertTlLogics" keyProperty="tl_id">
+        insert into tl_logic (tl_id, offset,phase_list,type,program_id) values (#{tl_id},#{offset},#{phase_list},#{type},#{program_id})
+    </insert>
+
+</mapper>

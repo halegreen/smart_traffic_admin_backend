@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hq.modules.network.dao.EdgeDao">
+
+<insert id="insertEdges" keyProperty="edge_id">
+        insert into net_edge (edge_id, from_node,to_node,edge_type,edge_name,numLanes,lane_list) values (#{edge_id},#{from_node},#{to_node},#{edge_type},#{edge_name},#{numLanes},#{lane_list})
+    </insert>
+
+</mapper>
